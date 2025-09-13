@@ -6,7 +6,7 @@ const mongodb = require('../data/connect');
 // --------------------
 const getAllContacts = async (req, res) => {
   try {
-    const result = await mongodb.getDb().db().collection('contacts').find();
+    const result = await mongodb.getDb().collection('contacts').find();
     const contacts = await result.toArray();
     res.status(200).json(contacts);
   } catch (err) {
@@ -20,7 +20,7 @@ const getAllContacts = async (req, res) => {
 const getSingleContact = async (req, res) => {
   try {
     const contactId = new ObjectId(req.params.id);
-    const result = await mongodb.getDb().db().collection('contacts').findOne({ _id: contactId });
+    const result = await mongodb.getDb().collection('contacts').findOne({ _id: contactId });
 
     if (!result) {
       return res.status(404).json({ error: 'Contact not found' });
