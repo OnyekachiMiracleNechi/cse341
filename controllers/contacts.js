@@ -34,66 +34,66 @@ const getSingleContact = async (req, res) => {
 // --------------------
 // CREATE a new contact
 // --------------------
-// const createContact = async (req, res) => {
-//   try {
-//     const doc = req.body;
+const createContact = async (req, res) => {
+  try {
+    const doc = req.body;
 
-//     // Validate required fields
-//     const required = ['firstName', 'lastName', 'email', 'favoriteColor', 'birthday'];
-//     const missing = required.filter(k => !doc[k]);
-//     if (missing.length) {
-//       return res.status(400).json({ error: `Missing fields: ${missing.join(', ')}` });
-//     }
+    // Validate required fields
+    const required = ['firstName', 'lastName', 'email', 'favoriteColor', 'birthday'];
+    const missing = required.filter(k => !doc[k]);
+    if (missing.length) {
+      return res.status(400).json({ error: `Missing fields: ${missing.join(', ')}` });
+    }
 
-//     const result = await mongodb.getDb().db().collection('contacts').insertOne(doc);
-//     res.status(201).json({ insertedId: result.insertedId });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+    const result = await mongodb.getDb().collection('contacts').insertOne(doc);
+    res.status(201).json({ insertedId: result.insertedId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 // // --------------------
 // // UPDATE a contact
 // // --------------------
-// const updateContact = async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     if (!ObjectId.isValid(id)) return res.status(400).json({ error: 'Invalid id' });
+const updateContact = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!ObjectId.isValid(id)) return res.status(400).json({ error: 'Invalid id' });
 
-//     const update = { $set: req.body };
-//     const result = await mongodb.getDb().db().collection('contacts').updateOne(
-//       { _id: new ObjectId(id) },
-//       update
-//     );
+    const update = { $set: req.body };
+    const result = await mongodb.getDb().collection('contacts').updateOne(
+      { _id: new ObjectId(id) },
+      update
+    );
 
-//     if (result.matchedCount === 0) return res.status(404).json({ error: 'Not found' });
-//     res.json({ modifiedCount: result.modifiedCount });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+    if (result.matchedCount === 0) return res.status(404).json({ error: 'Not found' });
+    res.json({ modifiedCount: result.modifiedCount });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 // // --------------------
 // // DELETE a contact
 // // --------------------
-// const deleteContact = async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     if (!ObjectId.isValid(id)) return res.status(400).json({ error: 'Invalid id' });
+const deleteContact = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!ObjectId.isValid(id)) return res.status(400).json({ error: 'Invalid id' });
 
-//     const result = await mongodb.getDb().db().collection('contacts').deleteOne({ _id: new ObjectId(id) });
-//     if (result.deletedCount === 0) return res.status(404).json({ error: 'Not found' });
+    const result = await mongodb.getDb().collection('contacts').deleteOne({ _id: new ObjectId(id) });
+    if (result.deletedCount === 0) return res.status(404).json({ error: 'Not found' });
 
-//     res.json({ deletedCount: result.deletedCount });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+    res.json({ deletedCount: result.deletedCount });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 module.exports = {
   getAllContacts,
   getSingleContact,
-//   createContact,
-//   updateContact,
-//   deleteContact
+  createContact,
+  updateContact,
+  deleteContact
 };
