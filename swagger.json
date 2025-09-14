@@ -1,24 +1,147 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Temples API",
-    "description": "API documentation for temple routes",
+    "title": "Contacts & Temples API",
+    "description": "API documentation for Contacts and Temples endpoints with full CRUD operations",
     "version": "1.0.0"
   },
   "host": "localhost:3000",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "paths": {
-    "/": {
+    "/contacts": {
       "get": {
-        "description": "",
+        "summary": "Get all contacts",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "List of contacts",
+            "schema": { "type": "array", "items": { "$ref": "#/definitions/Contact" } }
           }
         }
+      },
+      "post": {
+        "summary": "Create a new contact",
+        "parameters": [
+          {
+            "name": "contact",
+            "in": "body",
+            "description": "Contact object to create",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Contact" }
+          }
+        ],
+        "responses": { "201": { "description": "Contact created" } }
+      }
+    },
+    "/contacts/{id}": {
+      "get": {
+        "summary": "Get a single contact by ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
+        "responses": {
+          "200": { "description": "Single contact", "schema": { "$ref": "#/definitions/Contact" } },
+          "404": { "description": "Contact not found" }
+        }
+      },
+      "put": {
+        "summary": "Update a contact by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          {
+            "name": "contact",
+            "in": "body",
+            "description": "Updated contact data",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Contact" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Contact updated" },
+          "404": { "description": "Contact not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a contact by ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
+        "responses": {
+          "200": { "description": "Contact deleted" },
+          "404": { "description": "Contact not found" }
+        }
+      }
+    },
+    "/temples": {
+      "get": {
+        "summary": "Get all temples",
+        "responses": {
+          "200": { "description": "List of temples", "schema": { "type": "array", "items": { "$ref": "#/definitions/Temple" } } }
+        }
+      },
+      "post": {
+        "summary": "Create a new temple",
+        "parameters": [
+          {
+            "name": "temple",
+            "in": "body",
+            "description": "Temple object to create",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Temple" }
+          }
+        ],
+        "responses": { "201": { "description": "Temple created" } }
+      }
+    },
+    "/temples/{id}": {
+      "get": {
+        "summary": "Get a single temple by ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
+        "responses": {
+          "200": { "description": "Single temple", "schema": { "$ref": "#/definitions/Temple" } },
+          "404": { "description": "Temple not found" }
+        }
+      },
+      "put": {
+        "summary": "Update a temple by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          {
+            "name": "temple",
+            "in": "body",
+            "description": "Updated temple data",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Temple" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Temple updated" },
+          "404": { "description": "Temple not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a temple by ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
+        "responses": {
+          "200": { "description": "Temple deleted" },
+          "404": { "description": "Temple not found" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Contact": {
+      "type": "object",
+      "properties": {
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string" },
+        "favoriteColor": { "type": "string" },
+        "birthday": { "type": "string", "format": "date" }
+      }
+    },
+    "Temple": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "location": { "type": "string" },
+        "dedicatedDate": { "type": "string", "format": "date" }
       }
     }
   }
