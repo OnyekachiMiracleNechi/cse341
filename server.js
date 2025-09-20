@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const mongodb = require('./data/connect');        // Contacts DB
-const mongodbTemple = require('./data/connectTemple'); // Temple DB
+const mongoose = require('mongoose');
 const contactsRoutes = require('./routes/contacts');
 const templesRoutes = require('./routes/temples');
 const swaggerUi = require('swagger-ui-express');
@@ -25,28 +24,25 @@ app.get('/', (req, res) => {
   res.send('Welcome to the API 🚀');
 });
 
-// Helper function to initialize DBs using Promises
-const initDatabases = async () => {
-  try {
-    await new Promise((resolve, reject) => {
-      mongodb.initDb((err) => (err ? reject(err) : resolve()));
-    });
-    console.log('✅ Contacts DB connected');
+// Connect to MongoDB using Mongoose
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    dbName: 'myDatabase',   // ← Ensure this matches your old database
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(async () => {
+    console.log('✅ MongoDB connected via Mongoose');
 
-    await new Promise((resolve, reject) => {
-      mongodbTemple.initDb((err) => (err ? reject(err) : resolve()));
-    });
-    console.log('✅ Temple DB connected');
+    // Debug: list all collections in this database
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    console.log('Collections in this DB:', collections.map(c => c.name));
 
-    // Start server only after both DBs are connected
     app.listen(port, () => {
       console.log(`🚀 Server is running on http://localhost:${port}`);
     });
-  } catch (err) {
-    console.error('❌ Failed to initialize databases:', err);
-    process.exit(1); // Exit if DB connection fails
-  }
-};
-
-// Initialize
-initDatabases();
+  })
+  .catch((err) => {
+    console.error('❌ Failed to connect to MongoDB:', err);
+    process.exit(1);
+  });
