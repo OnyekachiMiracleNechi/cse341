@@ -5,8 +5,8 @@ const doc = {
     title: 'E-Commerce API',
     description: 'API documentation for Users, Products, and Orders',
   },
-  host: process.env.RENDER_EXTERNAL_URL || 'localhost:3000', // use Render domain or localhost
-  schemes: ['https', 'http'], // include both for local/Render
+  host: 'localhost:3000',
+  schemes: ['http'],
 };
 
 const outputFile = './swagger.json';
