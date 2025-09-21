@@ -34,6 +34,16 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('✅ MongoDB connected via Mongoose');
+
+    // Check collections
+    mongoose.connection.once('open', async () => {
+      try {
+        const collections = await mongoose.connection.db.listCollections().toArray();
+        console.log('📦 Collections in this DB:', collections.map(c => c.name));
+      } catch (err) {
+        console.error('❌ Error listing collections:', err);
+      }
+    });
     app.listen(port, () => {
       console.log(`🚀 Server is running on http://localhost:${port}`);
     });
