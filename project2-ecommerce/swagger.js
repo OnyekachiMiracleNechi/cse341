@@ -2,11 +2,11 @@ const swaggerAutogen = require('swagger-autogen')();
 
 const doc = {
   info: {
-    title: 'E-Commerce & Contacts/Temples API',
-    description: 'API documentation for Contacts, Temples, Users, Products, and Orders',
+    title: 'E-Commerce API',
+    description: 'API documentation for Users, Products, and Orders',
   },
-  host: 'cse341-b1m1.onrender.com', // Change to your Render domain when deployed
-  schemes: ['https'], // Use 'https' if deployed on Render with SSL
+  host: process.env.RENDER_EXTERNAL_URL || 'localhost:3000', // use Render domain or localhost
+  schemes: ['https', 'http'], // include both for local/Render
 };
 
 const outputFile = './swagger.json';

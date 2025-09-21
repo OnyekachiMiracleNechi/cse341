@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors'); // ✅ add CORS
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger.json');
 
@@ -13,6 +14,7 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
+app.use(cors()); // ✅ enable CORS
 
 // Swagger Docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
