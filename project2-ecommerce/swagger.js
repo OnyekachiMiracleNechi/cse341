@@ -18,8 +18,8 @@ const endpointsFiles = [
 
 swaggerAutogen(outputFile, endpointsFiles, doc)
   .then(() => {
-    console.log('✅ Swagger documentation generated successfully for all routes!');
+    console.log('✅ Swagger docs generated!');
   })
-  .catch((err) => {
+  .catch(err => {
     console.error('❌ Error generating Swagger docs:', err);
   });

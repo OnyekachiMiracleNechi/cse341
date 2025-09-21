@@ -4,12 +4,69 @@ const usersController = require('../controllers/users');
 
 /**
  * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management API
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - name
+ *         - email
+ *         - password
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: The auto-generated ID of the user
+ *         name:
+ *           type: string
+ *           description: The full name of the user
+ *         email:
+ *           type: string
+ *           description: User email address
+ *         password:
+ *           type: string
+ *           description: Hashed password
+ *         role:
+ *           type: string
+ *           enum: [customer, admin]
+ *           description: Role of the user
+ *         address:
+ *           type: string
+ *           description: User address
+ *         phone:
+ *           type: string
+ *           description: User phone number
+ *       example:
+ *         _id: 6510f1c4123abc456d789ef0
+ *         name: John Doe
+ *         email: john@example.com
+ *         password: hashedpassword123
+ *         role: customer
+ *         address: 123 Main Street
+ *         phone: "+1 234 567 890"
+ */
+
+/**
+ * @swagger
  * /users:
  *   get:
  *     summary: Get all users
+ *     tags: [Users]
  *     responses:
  *       200:
  *         description: A list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
  */
 router.get('/', usersController.getAllUsers);
 
@@ -18,6 +75,7 @@ router.get('/', usersController.getAllUsers);
  * /users/{id}:
  *   get:
  *     summary: Get a single user by ID
+ *     tags: [Users]
  *     parameters:
  *       - in: path
  *         name: id
@@ -27,6 +85,10 @@ router.get('/', usersController.getAllUsers);
  *     responses:
  *       200:
  *         description: User details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
  *       404:
  *         description: User not found
  */
@@ -37,29 +99,20 @@ router.get('/:id', usersController.getSingleUser);
  * /users:
  *   post:
  *     summary: Create a new user
+ *     tags: [Users]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *               role:
- *                 type: string
- *                 enum: [customer, admin]
- *               address:
- *                 type: string
- *               phone:
- *                 type: string
+ *             $ref: '#/components/schemas/User'
  *     responses:
  *       201:
  *         description: User created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
  *       400:
  *         description: Validation error
  */
@@ -70,6 +123,7 @@ router.post('/', usersController.createUser);
  * /users/{id}:
  *   put:
  *     summary: Update a user
+ *     tags: [Users]
  *     parameters:
  *       - in: path
  *         name: id
@@ -81,7 +135,7 @@ router.post('/', usersController.createUser);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             $ref: '#/components/schemas/User'
  *     responses:
  *       200:
  *         description: User updated
@@ -97,6 +151,7 @@ router.put('/:id', usersController.updateUser);
  * /users/{id}:
  *   delete:
  *     summary: Delete a user
+ *     tags: [Users]
  *     parameters:
  *       - in: path
  *         name: id

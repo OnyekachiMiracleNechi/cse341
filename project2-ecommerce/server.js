@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // ✅ add CORS
+const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger.json');
 
@@ -10,11 +10,11 @@ const productsRoutes = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 10000;
 
 // Middleware
 app.use(express.json());
-app.use(cors()); // ✅ enable CORS
+app.use(cors());
 
 // Swagger Docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
@@ -35,20 +35,16 @@ mongoose
   .then(() => {
     console.log('✅ MongoDB connected via Mongoose');
 
-    // Check collections
     mongoose.connection.once('open', async () => {
-      try {
-        const collections = await mongoose.connection.db.listCollections().toArray();
-        console.log('📦 Collections in this DB:', collections.map(c => c.name));
-      } catch (err) {
-        console.error('❌ Error listing collections:', err);
-      }
+      const collections = await mongoose.connection.db.listCollections().toArray();
+      console.log('📦 Collections in this DB:', collections.map(c => c.name));
     });
+
     app.listen(port, () => {
-      console.log(`🚀 Server is running on http://localhost:${port}`);
+      console.log(`🚀 Server running on http://localhost:${port}`);
     });
   })
-  .catch((err) => {
+  .catch(err => {
     console.error('❌ Failed to connect to MongoDB:', err);
     process.exit(1);
   });
