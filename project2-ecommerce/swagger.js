@@ -5,8 +5,8 @@ const doc = {
     title: 'E-Commerce API',
     description: 'API documentation for Users, Products, and Orders',
   },
-  host: 'localhost:3000',
-  schemes: ['http'],
+  host: 'cse341-b1m1.onrender.com',
+  schemes: ['https'],
 };
 
 const outputFile = './swagger.json';
