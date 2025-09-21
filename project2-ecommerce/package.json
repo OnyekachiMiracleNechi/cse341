@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "description": "E-Commerce API for Project 2 - CRUD operations with MongoDB and Mongoose",
   "main": "server.js",
+  "bugs": {
+    "url": "https://github.com/OnyekachiMiracleNechi/cse341/issues"
+  },
+   "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OnyekachiMiracleNechi/cse341.git"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
@@ -15,7 +22,7 @@
     "express",
     "mongoose"
   ],
-  "author": "Your Name",
+  "author": "Onyekachi Miracle",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

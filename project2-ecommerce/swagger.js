@@ -17,9 +17,4 @@ const endpointsFiles = [
 ];
 
 swaggerAutogen(outputFile, endpointsFiles, doc)
-  .then(() => {
-    console.log('✅ Swagger docs generated!');
-  })
-  .catch(err => {
-    console.error('❌ Error generating Swagger docs:', err);
-  });
+ 
