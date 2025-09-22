@@ -16,33 +16,58 @@ const ordersController = require('../controllers/orders');
  *     Order:
  *       type: object
  *       required:
- *         - userId
- *         - productIds
+ *         - customerName
+ *         - email
+ *         - products
  *         - totalAmount
  *       properties:
  *         _id:
  *           type: string
- *           description: The auto-generated ID of the order
- *         userId:
+ *           description: Auto-generated order ID
+ *         customerName:
  *           type: string
- *           description: The ID of the user who placed the order
- *         productIds:
+ *           description: Name of the customer
+ *         email:
+ *           type: string
+ *           description: Customer email
+ *         products:
  *           type: array
+ *           description: List of products in the order
  *           items:
- *             type: string
- *           description: List of product IDs in the order
+ *             type: object
+ *             properties:
+ *               product:
+ *                 type: string
+ *                 description: Product ID (references Product collection)
+ *               quantity:
+ *                 type: number
+ *                 description: Quantity ordered
  *         totalAmount:
  *           type: number
- *           description: Total price of the order
+ *           description: Total amount of the order
  *         status:
  *           type: string
- *           description: Status of the order (e.g., pending, shipped, delivered)
+ *           enum: [pending, paid, shipped, delivered, cancelled]
+ *           description: Order status
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
  *       example:
- *         _id: 650f9a4c123abc789d456ef0
- *         userId: 650f9a4c123abc789d456ef1
- *         productIds: ["650f9a4c123abc789d456ef2", "650f9a4c123abc789d456ef3"]
- *         totalAmount: 99.99
+ *         _id: 6510f1c4123abc456d789ef2
+ *         customerName: John Doe
+ *         email: john@example.com
+ *         products:
+ *           - product: 6510f1c4123abc456d789ef1
+ *             quantity: 2
+ *           - product: 6510f1c4123abc456d789ef3
+ *             quantity: 1
+ *         totalAmount: 75.50
  *         status: pending
+ *         createdAt: 2025-09-22T12:10:00.000Z
+ *         updatedAt: 2025-09-22T12:10:00.000Z
  */
 
 /**
@@ -53,7 +78,7 @@ const ordersController = require('../controllers/orders');
  *     tags: [Orders]
  *     responses:
  *       200:
- *         description: List of all orders
+ *         description: List of orders
  *         content:
  *           application/json:
  *             schema:
@@ -75,10 +100,9 @@ router.get('/', ordersController.getAllOrders);
  *         required: true
  *         schema:
  *           type: string
- *         description: The order ID
  *     responses:
  *       200:
- *         description: The order data
+ *         description: Order details
  *         content:
  *           application/json:
  *             schema:
@@ -102,13 +126,13 @@ router.get('/:id', ordersController.getSingleOrder);
  *             $ref: '#/components/schemas/Order'
  *     responses:
  *       201:
- *         description: Order created successfully
+ *         description: Order created
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Order'
  *       400:
- *         description: Bad request
+ *         description: Validation error
  */
 router.post('/', ordersController.createOrder);
 
@@ -124,7 +148,6 @@ router.post('/', ordersController.createOrder);
  *         required: true
  *         schema:
  *           type: string
- *         description: The order ID
  *     requestBody:
  *       required: true
  *       content:
@@ -133,9 +156,9 @@ router.post('/', ordersController.createOrder);
  *             $ref: '#/components/schemas/Order'
  *     responses:
  *       200:
- *         description: Order updated successfully
+ *         description: Order updated
  *       400:
- *         description: Bad request
+ *         description: Invalid ID or data
  *       404:
  *         description: Order not found
  */
@@ -153,10 +176,9 @@ router.put('/:id', ordersController.updateOrder);
  *         required: true
  *         schema:
  *           type: string
- *         description: The order ID
  *     responses:
  *       200:
- *         description: Order deleted successfully
+ *         description: Order deleted
  *       404:
  *         description: Order not found
  */

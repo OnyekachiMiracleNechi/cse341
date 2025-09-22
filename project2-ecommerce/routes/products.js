@@ -17,29 +17,54 @@ const productsController = require('../controllers/products');
  *       type: object
  *       required:
  *         - name
+ *         - description
  *         - price
+ *         - category
+ *         - stock
+ *         - imageUrl
  *       properties:
  *         _id:
  *           type: string
  *           description: The auto-generated ID of the product
  *         name:
  *           type: string
- *           description: The name of the product
+ *           description: Product name
  *         description:
  *           type: string
  *           description: Product description
  *         price:
  *           type: number
- *           description: Price of the product
- *         inStock:
+ *           description: Product price
+ *         category:
+ *           type: string
+ *           enum: [Clothing, Shoes, Accessories, Electronics]
+ *           description: Product category
+ *         stock:
+ *           type: number
+ *           description: Quantity in stock
+ *         imageUrl:
+ *           type: string
+ *           description: URL of product image
+ *         isFeatured:
  *           type: boolean
- *           description: Availability of the product
+ *           description: Whether the product is featured
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
  *       example:
- *         _id: 650f9a4c123abc789d456ef4
- *         name: Wireless Headphones
- *         description: High quality Bluetooth headphones
- *         price: 59.99
- *         inStock: true
+ *         _id: 6510f1c4123abc456d789ef1
+ *         name: T-Shirt
+ *         description: Cotton T-Shirt
+ *         price: 20.99
+ *         category: Clothing
+ *         stock: 100
+ *         imageUrl: "https://example.com/images/tshirt.jpg"
+ *         isFeatured: true
+ *         createdAt: 2025-09-22T11:50:00.000Z
+ *         updatedAt: 2025-09-22T11:50:00.000Z
  */
 
 /**
@@ -50,7 +75,7 @@ const productsController = require('../controllers/products');
  *     tags: [Products]
  *     responses:
  *       200:
- *         description: List of all products
+ *         description: List of products
  *         content:
  *           application/json:
  *             schema:
@@ -72,10 +97,9 @@ router.get('/', productsController.getAllProducts);
  *         required: true
  *         schema:
  *           type: string
- *         description: The product ID
  *     responses:
  *       200:
- *         description: Product data
+ *         description: Product details
  *         content:
  *           application/json:
  *             schema:
@@ -99,13 +123,13 @@ router.get('/:id', productsController.getSingleProduct);
  *             $ref: '#/components/schemas/Product'
  *     responses:
  *       201:
- *         description: Product created successfully
+ *         description: Product created
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Product'
  *       400:
- *         description: Bad request
+ *         description: Validation error
  */
 router.post('/', productsController.createProduct);
 
@@ -121,7 +145,6 @@ router.post('/', productsController.createProduct);
  *         required: true
  *         schema:
  *           type: string
- *         description: The product ID
  *     requestBody:
  *       required: true
  *       content:
@@ -130,9 +153,9 @@ router.post('/', productsController.createProduct);
  *             $ref: '#/components/schemas/Product'
  *     responses:
  *       200:
- *         description: Product updated successfully
+ *         description: Product updated
  *       400:
- *         description: Bad request
+ *         description: Invalid ID or data
  *       404:
  *         description: Product not found
  */
@@ -150,10 +173,9 @@ router.put('/:id', productsController.updateProduct);
  *         required: true
  *         schema:
  *           type: string
- *         description: The product ID
  *     responses:
  *       200:
- *         description: Product deleted successfully
+ *         description: Product deleted
  *       404:
  *         description: Product not found
  */

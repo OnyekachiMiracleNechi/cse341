@@ -16,16 +16,23 @@ const usersController = require('../controllers/users');
  *     User:
  *       type: object
  *       required:
- *         - name
+ *         - firstName
+ *         - lastName
  *         - email
  *         - password
  *       properties:
  *         _id:
  *           type: string
  *           description: The auto-generated ID of the user
+ *         firstName:
+ *           type: string
+ *           description: The user's first name
+ *         lastName:
+ *           type: string
+ *           description: The user's last name
  *         name:
  *           type: string
- *           description: The full name of the user
+ *           description: Virtual full name (firstName + lastName)
  *         email:
  *           type: string
  *           description: User email address
@@ -42,25 +49,34 @@ const usersController = require('../controllers/users');
  *         phone:
  *           type: string
  *           description: User phone number
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
  *       example:
  *         _id: 6510f1c4123abc456d789ef0
- *         name: John Doe
- *         email: john@example.com
- *         password: hashedpassword123
+ *         firstName: Nneka
+ *         lastName: Ogo
+ *         name: Nneka Ogo
+ *         email: nneka@example.com
  *         role: customer
- *         address: 123 Main Street
- *         phone: "+1 234 567 890"
+ *         address: No 3 blue Nigeria
+ *         phone: "07074354768"
+ *         createdAt: 2025-09-22T11:40:27.264Z
+ *         updatedAt: 2025-09-22T11:40:27.264Z
  */
 
 /**
  * @swagger
  * /users:
  *   get:
- *     summary: Get all users
+ *     summary: Get all users (supports pagination ?page=1&limit=10)
  *     tags: [Users]
  *     responses:
  *       200:
- *         description: A list of users
+ *         description: List of users
  *         content:
  *           application/json:
  *             schema:
