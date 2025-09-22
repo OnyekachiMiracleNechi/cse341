@@ -5,7 +5,7 @@ const doc = {
     title: 'E-Commerce API',
     description: 'API documentation for Users, Products, and Orders',
   },
-  host: 'cse341-b1m1.onrender.com',
+  host: 'cse341-b1m1.onrender.com', // Render URL
   schemes: ['https'],
 };
 
@@ -16,5 +16,7 @@ const endpointsFiles = [
   './routes/orders.js',
 ];
 
-swaggerAutogen(outputFile, endpointsFiles, doc)
- 
+// Generate Swagger JSON
+swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
+  console.log('✅ Swagger JSON generated successfully!');
+});

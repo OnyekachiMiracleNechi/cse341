@@ -2,12 +2,15 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const swaggerUi = require('swagger-ui-express');
-const swaggerFile = require('./swagger.json');
 
+// Routes
 const usersRoutes = require('./routes/users');
 const productsRoutes = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
+
+// Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger.json');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,7 +22,7 @@ app.use(cors());
 // Swagger Docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-// Routes
+// API Routes
 app.use('/users', usersRoutes);
 app.use('/products', productsRoutes);
 app.use('/orders', ordersRoutes);
@@ -30,21 +33,23 @@ app.get('/', (req, res) => {
 });
 
 // Connect to MongoDB
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => {
+mongoose.connect(process.env.MONGODB_URI, {
+  dbName: 'ecommerce-api'
+})
+.then(async () => {
     console.log('✅ MongoDB connected via Mongoose');
 
-    mongoose.connection.once('open', async () => {
-      const collections = await mongoose.connection.db.listCollections().toArray();
-      console.log('📦 Collections in this DB:', collections.map(c => c.name));
-    });
+    // Debug: list all collections in this database
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    console.log('📦 Collections in this DB:', collections.map(c => c.name));
 
+    // Start server
     app.listen(port, () => {
-      console.log(`🚀 Server running on http://localhost:${port}`);
+      console.log(`🚀 Server is running on http://localhost:${port}`);
+      console.log(`📄 Swagger UI available at /api-docs`);
     });
-  })
-  .catch(err => {
+})
+.catch((err) => {
     console.error('❌ Failed to connect to MongoDB:', err);
     process.exit(1);
-  });
+});
