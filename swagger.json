@@ -1,147 +1,233 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Contacts & Temples API",
-    "description": "API documentation for Contacts and Temples endpoints with full CRUD operations",
+    "title": "E-Commerce API",
+    "description": "API documentation for Users, Products, and Orders endpoints with full CRUD operations",
     "version": "1.0.0"
   },
   "host": "cse341-b1m1.onrender.com",
   "basePath": "/",
   "schemes": ["https"],
   "paths": {
-    "/contacts": {
+    "/users": {
       "get": {
-        "summary": "Get all contacts",
+        "summary": "Get all users",
         "responses": {
           "200": {
-            "description": "List of contacts",
-            "schema": { "type": "array", "items": { "$ref": "#/definitions/Contact" } }
+            "description": "List of users",
+            "schema": { "type": "array", "items": { "$ref": "#/definitions/User" } }
           }
         }
       },
       "post": {
-        "summary": "Create a new contact",
+        "summary": "Create a new user",
         "parameters": [
           {
-            "name": "contact",
+            "name": "user",
             "in": "body",
-            "description": "Contact object to create",
+            "description": "User object to create",
             "required": true,
-            "schema": { "$ref": "#/definitions/Contact" }
+            "schema": { "$ref": "#/definitions/User" }
           }
         ],
-        "responses": { "201": { "description": "Contact created" } }
+        "responses": { "201": { "description": "User created" } }
       }
     },
-    "/contacts/{id}": {
+    "/users/{id}": {
       "get": {
-        "summary": "Get a single contact by ID",
+        "summary": "Get a single user by ID",
         "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
         "responses": {
-          "200": { "description": "Single contact", "schema": { "$ref": "#/definitions/Contact" } },
-          "404": { "description": "Contact not found" }
+          "200": { "description": "Single user", "schema": { "$ref": "#/definitions/User" } },
+          "404": { "description": "User not found" }
         }
       },
       "put": {
-        "summary": "Update a contact by ID",
+        "summary": "Update a user by ID",
         "parameters": [
           { "name": "id", "in": "path", "required": true, "type": "string" },
           {
-            "name": "contact",
+            "name": "user",
             "in": "body",
-            "description": "Updated contact data",
+            "description": "Updated user data",
             "required": true,
-            "schema": { "$ref": "#/definitions/Contact" }
+            "schema": { "$ref": "#/definitions/User" }
           }
         ],
         "responses": {
-          "200": { "description": "Contact updated" },
-          "404": { "description": "Contact not found" }
+          "200": { "description": "User updated" },
+          "404": { "description": "User not found" }
         }
       },
       "delete": {
-        "summary": "Delete a contact by ID",
+        "summary": "Delete a user by ID",
         "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
         "responses": {
-          "200": { "description": "Contact deleted" },
-          "404": { "description": "Contact not found" }
+          "200": { "description": "User deleted" },
+          "404": { "description": "User not found" }
         }
       }
     },
-    "/temples": {
+    "/products": {
       "get": {
-        "summary": "Get all temples",
+        "summary": "Get all products",
         "responses": {
-          "200": { "description": "List of temples", "schema": { "type": "array", "items": { "$ref": "#/definitions/Temple" } } }
+          "200": {
+            "description": "List of products",
+            "schema": { "type": "array", "items": { "$ref": "#/definitions/Product" } }
+          }
         }
       },
       "post": {
-        "summary": "Create a new temple",
+        "summary": "Create a new product",
         "parameters": [
           {
-            "name": "temple",
+            "name": "product",
             "in": "body",
-            "description": "Temple object to create",
+            "description": "Product object to create",
             "required": true,
-            "schema": { "$ref": "#/definitions/Temple" }
+            "schema": { "$ref": "#/definitions/Product" }
           }
         ],
-        "responses": { "201": { "description": "Temple created" } }
+        "responses": { "201": { "description": "Product created" } }
       }
     },
-    "/temples/{id}": {
+    "/products/{id}": {
       "get": {
-        "summary": "Get a single temple by ID",
+        "summary": "Get a single product by ID",
         "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
         "responses": {
-          "200": { "description": "Single temple", "schema": { "$ref": "#/definitions/Temple" } },
-          "404": { "description": "Temple not found" }
+          "200": { "description": "Single product", "schema": { "$ref": "#/definitions/Product" } },
+          "404": { "description": "Product not found" }
         }
       },
       "put": {
-        "summary": "Update a temple by ID",
+        "summary": "Update a product by ID",
         "parameters": [
           { "name": "id", "in": "path", "required": true, "type": "string" },
           {
-            "name": "temple",
+            "name": "product",
             "in": "body",
-            "description": "Updated temple data",
+            "description": "Updated product data",
             "required": true,
-            "schema": { "$ref": "#/definitions/Temple" }
+            "schema": { "$ref": "#/definitions/Product" }
           }
         ],
         "responses": {
-          "200": { "description": "Temple updated" },
-          "404": { "description": "Temple not found" }
+          "200": { "description": "Product updated" },
+          "404": { "description": "Product not found" }
         }
       },
       "delete": {
-        "summary": "Delete a temple by ID",
+        "summary": "Delete a product by ID",
         "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
         "responses": {
-          "200": { "description": "Temple deleted" },
-          "404": { "description": "Temple not found" }
+          "200": { "description": "Product deleted" },
+          "404": { "description": "Product not found" }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "summary": "Get all orders",
+        "responses": {
+          "200": {
+            "description": "List of orders",
+            "schema": { "type": "array", "items": { "$ref": "#/definitions/Order" } }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new order",
+        "parameters": [
+          {
+            "name": "order",
+            "in": "body",
+            "description": "Order object to create",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Order" }
+          }
+        ],
+        "responses": { "201": { "description": "Order created" } }
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "summary": "Get a single order by ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
+        "responses": {
+          "200": { "description": "Single order", "schema": { "$ref": "#/definitions/Order" } },
+          "404": { "description": "Order not found" }
+        }
+      },
+      "put": {
+        "summary": "Update an order by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          {
+            "name": "order",
+            "in": "body",
+            "description": "Updated order data",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Order" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Order updated" },
+          "404": { "description": "Order not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete an order by ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
+        "responses": {
+          "200": { "description": "Order deleted" },
+          "404": { "description": "Order not found" }
         }
       }
     }
   },
   "definitions": {
-    "Contact": {
+    "User": {
       "type": "object",
       "properties": {
         "firstName": { "type": "string" },
         "lastName": { "type": "string" },
         "email": { "type": "string" },
-        "favoriteColor": { "type": "string" },
-        "birthday": { "type": "string", "format": "date" }
+        "password": { "type": "string" },
+        "role": { "type": "string" },
+        "address": { "type": "string" },
+        "phone": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
       }
     },
-    "Temple": {
+    "Product": {
       "type": "object",
       "properties": {
         "name": { "type": "string" },
-        "location": { "type": "string" },
-        "dedicatedDate": { "type": "string", "format": "date" }
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "category": { "type": "string" },
+        "stock": { "type": "number" },
+        "imageUrl": { "type": "string" },
+        "sku": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "products": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Product" }
+        },
+        "totalPrice": { "type": "number" },
+        "status": { "type": "string" },
+        "shippingAddress": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       }
     }
   }
